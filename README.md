@@ -54,7 +54,7 @@ Thirty saved SQLite analyses use joins, CTEs, CASE, ranks, LAG, cumulative and r
 
 ## NLP Analysis
 
-Consent-published narratives are normalized for token analysis, then TF-IDF unigrams/bigrams and eight-component NMF create term and topic summaries. The deterministic corpus is capped at 150,000 IDs. This explores themes, not objective sentiment or prevalence among all complainants. Outputs are under `outputs/tables/` and figures under `outputs/figures/`.
+The full CFPB CSV in the current source release has no consumer narrative or consent field. The pipeline preserves these expected fields as null, reports zero published consumer narratives, and analyzes CFPB-published company public responses separately when text is available. TF-IDF unigrams/bigrams and eight-component NMF use a deterministic corpus cap of 150,000 text records (NMF fits at most 30,000). These are exploratory text groupings, not consumer sentiment or prevalence among complainants. Outputs are under `outputs/tables/` and `outputs/figures/`.
 
 ## Key Insights
 

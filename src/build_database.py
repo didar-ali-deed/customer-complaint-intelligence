@@ -6,7 +6,7 @@ import pandas as pd
 from .config import CLEAN_DIR, DB_PATH
 
 LOG=logging.getLogger(__name__)
-STAGE_COLUMNS=["complaint_id","date_received","date_sent_to_company","product","sub_product","issue","sub_issue","company","state","zip_code","tags","consumer_consent_provided","submitted_via","company_response_to_consumer","timely_response","consumer_disputed","consumer_complaint_narrative","year","quarter","month","month_name","year_month","week","day_of_week","response_days","timely_response_flag","has_narrative","narrative_length","narrative_word_count"]
+STAGE_COLUMNS=["complaint_id","date_received","date_sent_to_company","product","sub_product","issue","sub_issue","company_public_response","company","state","zip_code","tags","consumer_consent_provided","submitted_via","company_response_to_consumer","timely_response","consumer_disputed","consumer_complaint_narrative","year","quarter","month","month_name","year_month","week","day_of_week","response_days","timely_response_flag","has_narrative","narrative_length","narrative_word_count"]
 
 def build_database(directory: Path=CLEAN_DIR, db_path: Path=DB_PATH) -> dict:
     """Load clean parts to staging, construct dimensions/fact, then add indexes."""
@@ -18,6 +18,9 @@ def build_database(directory: Path=CLEAN_DIR, db_path: Path=DB_PATH) -> dict:
         for part in sorted(directory.glob("part-*.parquet")):
             available=pd.read_parquet(part).columns
             frame=pd.read_parquet(part,columns=[c for c in STAGE_COLUMNS if c in available])
+            for column in STAGE_COLUMNS:
+                if column not in frame: frame[column]=pd.NA
+            frame=frame[STAGE_COLUMNS]
             frame.to_sql("staging",con,if_exists="replace" if first else "append",index=False,chunksize=10000); first=False; rows+=len(frame)
         con.executescript((Path(__file__).resolve().parents[1]/"sql/01_schema.sql").read_text(encoding="utf-8"))
         # Dimension keys are compact integer surrogates, assigned in stable alphabetical order.
@@ -39,7 +42,7 @@ def build_database(directory: Path=CLEAN_DIR, db_path: Path=DB_PATH) -> dict:
         con.execute("""INSERT INTO fact_complaints
         SELECT s.complaint_id, CAST(REPLACE(s.date_received,'-','') AS INTEGER), c.company_id,p.product_id,i.issue_id,g.state_id,ch.channel_id,
         s.date_received,s.date_sent_to_company,s.sub_product,s.sub_issue,s.zip_code,s.tags,s.consumer_consent_provided,
-        s.company_response_to_consumer,s.timely_response,s.consumer_disputed,s.consumer_complaint_narrative,
+        s.company_public_response,s.company_response_to_consumer,s.timely_response,s.consumer_disputed,s.consumer_complaint_narrative,
         s.year,s.quarter,s.month,s.month_name,s.year_month,s.week,s.day_of_week,s.response_days,s.timely_response_flag,
         s.has_narrative,s.narrative_length,s.narrative_word_count
         FROM staging s LEFT JOIN dim_company c ON s.company=c.company LEFT JOIN dim_product p ON s.product=p.product

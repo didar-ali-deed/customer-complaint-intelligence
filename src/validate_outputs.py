@@ -26,7 +26,12 @@ def validate_outputs(db_path:Path=DB_PATH)->dict:
         add("future received dates",future==0,f"future dates={future:,}")
         add("required complaint/date fields",missing_key==0,f"missing required fields={missing_key:,}")
         add("company dimension integrity",orphan==0,f"orphan foreign keys={orphan:,}")
+        for key,dimension in [("date_key","dim_date"),("product_id","dim_product"),("issue_id","dim_issue"),("state_id","dim_geography"),("channel_id","dim_channel")]:
+            invalid=con.execute(f"SELECT COUNT(*) FROM fact_complaints f LEFT JOIN {dimension} d USING({key}) WHERE f.{key} IS NOT NULL AND d.{key} IS NULL").fetchone()[0]
+            add(f"{dimension} referential integrity",invalid==0,f"orphan foreign keys={invalid:,}")
         add("timely response flags",bad_boolean==0,f"invalid flags={bad_boolean:,}")
+        invalid_yes_no=con.execute("SELECT COUNT(*) FROM fact_complaints WHERE timely_response IS NOT NULL AND timely_response NOT IN ('Yes','No')").fetchone()[0]
+        add("timely response source categories",invalid_yes_no==0,f"unexpected values={invalid_yes_no:,}")
         python_year={}
         for p in parts:
             d=pd.read_parquet(p,columns=["year"]); vals=d.year.dropna().astype(int).value_counts()

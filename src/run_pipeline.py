@@ -1,6 +1,7 @@
 """Run the complete official-source complaint analytics pipeline."""
 from __future__ import annotations
 import json, logging, time
+import argparse
 from pathlib import Path
 from .config import ROOT
 from .download_data import download_data
@@ -16,14 +17,21 @@ from .validate_outputs import validate_outputs
 from .publish_reports import publish_reports
 
 def main()->None:
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--resume-from",choices=["profile","cleaning","features","database","sql","visualizations","narratives","powerbi","validation"],help="Resume from an existing completed pipeline stage")
+    resume_from=parser.parse_args().resume_from
     logdir=ROOT/"outputs/logs"; logdir.mkdir(parents=True,exist_ok=True)
     logging.basicConfig(level=logging.INFO,format="%(asctime)s %(levelname)s %(name)s: %(message)s",
                         handlers=[logging.FileHandler(logdir/"pipeline.log",encoding="utf-8"),logging.StreamHandler()])
     started=time.time(); results={}
-    for name,func in [("download",download_data),("raw_profile",profile_raw),("cleaning",clean_data),
+    stages=[("download",download_data),("raw_profile",profile_raw),("cleaning",clean_data),
                       ("features",engineer_features),("database",build_database),("sql",run_sql_analyses),
                       ("visualizations",create_visualizations),("narratives",analyze_narratives),
-                      ("powerbi",export_powerbi),("validation",validate_outputs)]:
+                      ("powerbi",export_powerbi),("validation",validate_outputs)]
+    if resume_from:
+        start=next(i for i,(name,_) in enumerate(stages) if name==resume_from)
+        stages=stages[start:]
+    for name,func in stages:
         logging.info("Starting %s",name); results[name]=func(); logging.info("Completed %s",name)
     results["runtime_seconds"]=round(time.time()-started,1)
     publish_reports(results)

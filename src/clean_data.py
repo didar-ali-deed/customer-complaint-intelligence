@@ -22,6 +22,10 @@ def clean_data(path: Path = RAW_CSV, output_dir: Path = CLEAN_DIR) -> dict:
     for part, chunk in enumerate(pd.read_csv(path, dtype=str, keep_default_na=False, chunksize=CHUNK_SIZE, low_memory=False), 1):
         total += len(chunk)
         chunk.columns = [snake_case(c) for c in chunk.columns]
+        # CFPB may omit fields in a release; preserve a stable nullable schema.
+        for optional in ("consumer_consent_provided", "consumer_complaint_narrative", "consumer_disputed"):
+            if optional not in chunk:
+                chunk[optional] = pd.Series(pd.NA,index=chunk.index,dtype="string")
         for col in chunk.columns:
             chunk[col] = chunk[col].astype("string").str.strip()
             chunk[col] = chunk[col].mask(chunk[col] == "", pd.NA)

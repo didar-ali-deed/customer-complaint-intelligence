@@ -17,14 +17,21 @@ class _Median:
         return self.values[i] if n%2 else (self.values[i-1]+self.values[i])/2
 
 def analyze_narratives(db_path:Path=DB_PATH)->dict:
-    """Analyze a deterministic capped corpus; never imply it is all narrative text."""
+    """Analyze consumer narratives when published; otherwise published company responses."""
     out=ROOT/"outputs/tables"; out.mkdir(parents=True,exist_ok=True)
     con=sqlite3.connect(db_path)
     try:
         con.create_aggregate("MEDIAN",1,_Median)
-        total=con.execute("SELECT COUNT(*) FROM fact_complaints WHERE has_narrative=1").fetchone()[0]
-        docs=pd.read_sql_query(f"SELECT consumer_complaint_narrative narrative,product,issue,company FROM fact_complaints WHERE has_narrative=1 ORDER BY complaint_id LIMIT {NLP_MAX_DOCUMENTS}",con)
-        lengths=pd.read_sql_query("SELECT year,AVG(narrative_length) mean_chars,AVG(narrative_word_count) mean_words,MEDIAN(narrative_length) median_chars FROM fact_complaints WHERE has_narrative=1 GROUP BY year ORDER BY year",con)
+        narrative_total=con.execute("SELECT COUNT(*) FROM fact_complaints WHERE has_narrative=1").fetchone()[0]
+        if narrative_total:
+            text_column="consumer_complaint_narrative"; source_label="consumer complaint narratives"
+            predicate="consumer_complaint_narrative IS NOT NULL AND consumer_complaint_narrative<>''"
+        else:
+            text_column="company_public_response"; source_label="CFPB-published company public responses (consumer complaint narratives absent from this CFPB release)"
+            predicate="company_public_response IS NOT NULL AND company_public_response<>''"
+        total=con.execute(f"SELECT COUNT(*) FROM fact_complaints WHERE {predicate}").fetchone()[0]
+        docs=pd.read_sql_query(f"SELECT f.{text_column} narrative,p.product,i.issue,c.company FROM fact_complaints f LEFT JOIN dim_product p USING(product_id) LEFT JOIN dim_issue i USING(issue_id) LEFT JOIN dim_company c USING(company_id) WHERE f.{predicate} ORDER BY f.complaint_id LIMIT {NLP_MAX_DOCUMENTS}",con)
+        lengths=pd.read_sql_query(f"SELECT year,AVG(LENGTH({text_column})) mean_chars,AVG(LENGTH({text_column})-LENGTH(REPLACE({text_column},' ',''))+1) mean_words,MEDIAN(LENGTH({text_column})) median_chars FROM fact_complaints WHERE {predicate} GROUP BY year ORDER BY year",con)
     finally: con.close()
     lengths.to_csv(out/"narrative_length_by_year.csv",index=False)
     def normalize(text:str)->str:
@@ -52,7 +59,7 @@ def analyze_narratives(db_path:Path=DB_PATH)->dict:
         inds=np.argsort(component)[::-1][:12]
         topics.append({"topic_id":i+1,"terms":"; ".join(terms[inds]),"documents_assigned":int((weights.argmax(axis=1)==i).sum()),"corpus_documents":topic_n})
     topic_df=pd.DataFrame(topics); topic_df.to_csv(out/"narrative_topics.csv",index=False)
-    result={"narratives_available":int(total),"documents_analyzed":len(docs),"corpus_cap":NLP_MAX_DOCUMENTS,
+    result={"text_source":source_label,"consumer_narratives_available":int(narrative_total),"text_records_available":int(total),"documents_analyzed":len(docs),"corpus_cap":NLP_MAX_DOCUMENTS,
             "method":"Deterministic first N complaint IDs; TF-IDF unigrams/bigrams on the corpus and 8-component NMF on its first 30,000 documents; English stopword list plus project stopwords.",
             "caution":"Themes are algorithmic groupings for investigation, not objective consumer sentiment or causal findings."}
     (ROOT/"outputs/reports/narrative_analysis_metadata.json").write_text(json.dumps(result,indent=2),encoding="utf-8")
