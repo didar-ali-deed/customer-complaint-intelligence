@@ -1,0 +1,10 @@
+CREATE INDEX idx_fact_date ON fact_complaints(date_received);
+CREATE INDEX idx_fact_date_key ON fact_complaints(date_key);
+CREATE INDEX idx_fact_company ON fact_complaints(company_id);
+CREATE INDEX idx_fact_product ON fact_complaints(product_id);
+CREATE INDEX idx_fact_issue ON fact_complaints(issue_id);
+CREATE INDEX idx_fact_state ON fact_complaints(state_id);
+CREATE INDEX idx_fact_channel ON fact_complaints(channel_id);
+CREATE INDEX idx_fact_timely ON fact_complaints(timely_response_flag);
+CREATE INDEX idx_fact_year_month ON fact_complaints(year_month);
+CREATE INDEX idx_fact_narrative ON fact_complaints(has_narrative);
