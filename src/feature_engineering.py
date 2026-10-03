@@ -30,7 +30,8 @@ def engineer_features(directory: Path = CLEAN_DIR) -> dict:
         narrative=df.get("consumer_complaint_narrative",pd.Series(pd.NA,index=df.index)).fillna("")
         df["has_narrative"]=(narrative.str.len()>0).astype("Int8")
         df["narrative_length"]=narrative.str.len().astype("Int32")
-        df["narrative_word_count"]=narrative.str.split().str.len().fillna(0).astype("Int32")
+        # Regex token counting avoids materializing millions of Python word lists.
+        df["narrative_word_count"]=narrative.str.count(r"\S+").fillna(0).astype("Int32")
         df["company_response_group"]=df.get("company_response_to_consumer",pd.Series(pd.NA,index=df.index)).fillna("Unknown")
         df["submission_channel_group"]=df.get("submitted_via",pd.Series(pd.NA,index=df.index)).fillna("Unknown")
         df["product_group"]=df.get("product",pd.Series(pd.NA,index=df.index)).fillna("Unknown")
