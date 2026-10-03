@@ -50,7 +50,8 @@ def analyze_narratives(db_path:Path=DB_PATH)->dict:
         groups=docs[field].value_counts()
         groups=groups[groups>=100].head(12)
         for label,count in groups.items():
-            subset.append({"group_type":field,"group":label,"narratives":int(count),"top_terms":"; ".join(terms[np.argsort(np.asarray(matrix[docs[field].eq(label)].sum(axis=0)).ravel())[::-1][:10]])})
+            mask=docs[field].eq(label).to_numpy()
+            subset.append({"group_type":field,"group":label,"narratives":int(count),"top_terms":"; ".join(terms[np.argsort(np.asarray(matrix[mask].sum(axis=0)).ravel())[::-1][:10]])})
     pd.DataFrame(subset).to_csv(out/"narrative_terms_by_segment.csv",index=False)
     topic_n=min(len(docs),30_000)
     topic_matrix=matrix[:topic_n]
