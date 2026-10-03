@@ -15,7 +15,7 @@ Import `data/powerbi/fact_complaints.parquet` and all six `dim_*.csv` files. Use
 
 Set keys to Whole number. Treat `complaint_id`, `zip_code`, and categorical/text columns as Text; set dates to Date and measures to Whole number or decimal. `date_received` and `date_key` describe the same role: use `dim_date` for all time filtering and keep `date_key` relationship active. The sent date is a separate role-playing date; leave inactive unless adding an explicit USERELATIONSHIP measure.
 
-Mark `dim_date` as the date table using `[date]`. Sort `month_name` by `month`; sort `year_month` in the fact by its chronological text key (ISO `YYYY-MM`). Sort weekday labels with a custom 1–7 weekday sort column if used. Hide surrogate keys, raw date keys, and duplicate fact date parts from report view. Keep complaint narratives out of standard visuals and enable drill-through to inspect individual narrative records carefully.
+Mark `dim_date` as the date table using `[date]`. Sort `month_name` by `[month]`, and `day_of_week` by `[day_of_week_sort]`. Use the dimension's ISO `year_month` for chronological monthly visuals. Hide surrogate keys, raw date keys, and duplicate fact date parts from report view. Keep complaint narratives out of standard visuals and enable drill-through to inspect individual narrative records carefully.
 
 ## Model cautions
 

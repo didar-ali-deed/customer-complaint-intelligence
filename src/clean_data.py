@@ -42,8 +42,10 @@ def clean_data(path: Path = RAW_CSV, output_dir: Path = CLEAN_DIR) -> dict:
         if id_col in chunk:
             valid = chunk[id_col].notna() & chunk[id_col].str.fullmatch(r"\d+", na=False)
             invalid_id += int((~valid).sum())
-            chunk = chunk.loc[valid].copy()
-            duplicate_mask = chunk[id_col].isin(seen_ids) | chunk[id_col].duplicated(keep="first")
+            chunk = chunk.loc[valid]
+            # Series.isin(set) materializes the whole Python set on every chunk; map
+            # performs bounded per-ID membership checks without an expanding copy.
+            duplicate_mask = chunk[id_col].map(seen_ids.__contains__) | chunk[id_col].duplicated(keep="first")
             duplicate_id += int(duplicate_mask.sum())
             seen_ids.update(chunk.loc[~duplicate_mask, id_col].dropna().tolist())
             chunk = chunk.loc[~duplicate_mask]

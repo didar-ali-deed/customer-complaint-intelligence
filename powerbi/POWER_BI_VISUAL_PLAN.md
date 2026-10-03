@@ -1,6 +1,6 @@
 # Power BI Visual Plan
 
-Use a 16:9 canvas, restrained navy/teal palette, consistent date slicer, concise titles, and tooltips with count, share, and period context. Add a persistent footer: “CFPB complaints are not a representative sample. Counts are not adjusted for customer base or market share.”
+Use a 16:9 canvas, restrained navy/teal palette, consistent date slicer, concise titles, and tooltips with count, share, and period context. Use `dim_date[year_month]` for monthly axes. Add a persistent footer: “CFPB complaints are not a representative sample. Counts are not adjusted for customer base or market share.”
 
 ## Page 1 — Executive Overview
 

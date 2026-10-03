@@ -24,7 +24,7 @@ CALCULATE([Total Complaints], fact_complaints[timely_response_flag] = 1)
 
 Timely Response % =
 DIVIDE([Timely Responses],
-    CALCULATE([Total Complaints], NOT ISBLANK(fact_complaints[timely_response_flag])))
+    CALCULATE([Total Complaints], FILTER(fact_complaints, NOT ISBLANK(fact_complaints[timely_response_flag]))))
 
 Complaints With Narratives =
 CALCULATE([Total Complaints], fact_complaints[has_narrative] = 1)
