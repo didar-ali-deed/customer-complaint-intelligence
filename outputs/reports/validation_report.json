@@ -1,0 +1,89 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "clean-to-database row reconciliation",
+      "status": "PASS",
+      "detail": "clean=18,145,013; database=18,145,013"
+    },
+    {
+      "check": "complaint ID uniqueness",
+      "status": "PASS",
+      "detail": "rows=18,145,013; unique IDs=18,145,013"
+    },
+    {
+      "check": "date parsing",
+      "status": "PASS",
+      "detail": "malformed non-null database dates=0"
+    },
+    {
+      "check": "future received dates",
+      "status": "PASS",
+      "detail": "future dates=0"
+    },
+    {
+      "check": "required complaint/date fields",
+      "status": "PASS",
+      "detail": "missing required fields=0"
+    },
+    {
+      "check": "company dimension integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "dim_date referential integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "dim_product referential integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "dim_issue referential integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "dim_geography referential integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "dim_channel referential integrity",
+      "status": "PASS",
+      "detail": "orphan foreign keys=0"
+    },
+    {
+      "check": "timely response flags",
+      "status": "PASS",
+      "detail": "invalid flags=0"
+    },
+    {
+      "check": "timely response source categories",
+      "status": "PASS",
+      "detail": "unexpected values=0"
+    },
+    {
+      "check": "Python-to-SQL yearly aggregate reconciliation",
+      "status": "PASS",
+      "detail": "years checked=16"
+    },
+    {
+      "check": "Power BI fact export reconciliation",
+      "status": "PASS",
+      "detail": "database=18,145,013; export=18,145,013"
+    },
+    {
+      "check": "official raw inputs present",
+      "status": "PASS",
+      "detail": "archive=True; extracted csv=True"
+    }
+  ],
+  "raw_csv_bytes": 5499098923,
+  "clean_rows": 18145013,
+  "database_rows": 18145013,
+  "powerbi_fact_rows": 18145013
+}

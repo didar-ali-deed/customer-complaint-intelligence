@@ -18,7 +18,14 @@ Source: [CFPB Consumer Complaint Database](https://www.consumerfinance.gov/data-
 
 ## Dataset Size
 
-Generated from the completed pipeline in `outputs/reports/pipeline_run.json` and `outputs/reports/validation_report.txt`. Statistics are never hard-coded or fabricated.
+
+- Raw rows profiled: **18,145,013**
+- Clean unique complaint rows: **18,145,013**
+- Date coverage: **2011-12-01 to 2026-10-02**
+- Raw extracted CSV: **5,499,098,923 bytes**; ZIP archive: **350,138,444 bytes**
+- SQLite database: **11,641,085,952 bytes**
+- Power BI fact export: **199,988,696 bytes**
+
 
 ## Architecture
 
@@ -28,7 +35,7 @@ flowchart LR
   B --> C[Chunked raw profiling]
   C --> D[Cleaned and enriched Parquet]
   D --> E[SQLite star schema]
-  E --> F[30 SQL analyses and CSV tables]
+  E --> F[32 SQL analyses and CSV tables]
   E --> G[Python charts and narrative NLP]
   E --> H[Power BI full fact Parquet and dimensions]
   F --> I[Validated reports and findings]
@@ -50,7 +57,7 @@ Column labels become snake_case; surrounding whitespace is trimmed; empty values
 
 ## SQL Analysis
 
-Thirty saved SQLite analyses use joins, CTEs, CASE, ranks, LAG, cumulative and rolling windows, response measures, growth, and concentration. Results are in `outputs/tables/`; source SQL is in `sql/03_business_analyses.sql`.
+Thirty-two saved SQLite analyses use joins, CTEs, CASE, ranks, LAG, cumulative and rolling windows, response measures, growth, and concentration, including matched year-to-date comparisons for the partial current year overall and by issue. Results are in `outputs/tables/`; source SQL is in `sql/03_business_analyses.sql`.
 
 ## NLP Analysis
 
@@ -81,7 +88,7 @@ The pipeline needs an internet connection on first download and several GB of di
 
 ## Limitations
 
-The published complaint database is not representative of all consumer experiences, excludes complaints that CFPB does not publish, and lacks customer counts needed to normalize company volumes. Narrative availability is selective. NLP is exploratory and capped. A complaint-level `date_sent_to_company - date_received` is used as a response-time proxy and may not capture the full operational timeline. Latest periods can be incomplete. Geography is not population-adjusted.
+The published complaint database is not representative of all consumer experiences, excludes complaints that CFPB does not publish, and lacks customer counts needed to normalize company volumes. The current official CSV release omits consumer complaint narratives, consent, and disputed fields; consumer narrative rate is therefore zero in this snapshot. NLP analyzes a capped subset of CFPB-published company public responses, which is not consumer language or sentiment. A complaint-level `date_sent_to_company - date_received` is used as a routing-time proxy and may not capture resolution time. Latest periods can be incomplete. Geography is not population-adjusted.
 
 ## Future Improvements
 

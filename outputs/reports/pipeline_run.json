@@ -1,0 +1,157 @@
+{
+  "source": {
+    "source": "Consumer Financial Protection Bureau Consumer Complaint Database",
+    "source_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+    "download_url": "https://files.consumerfinance.gov/ccdb/complaints.csv.zip",
+    "download_date_utc": "2026-10-03",
+    "archive_filename": "complaints.csv.zip",
+    "archive_size_bytes": 350138444,
+    "archive_sha256": "3327d50c93637c637c798da38380cfef4856c1eb1b3c949a3eeb3eb7b77236a4",
+    "filename": "complaints.csv",
+    "filesize_bytes": 5499098923,
+    "sha256": "14460b4706772bd017197e5a42efd2e6939bbb366ae55de0d83d41b87d57a111",
+    "source_member": "complaints.csv",
+    "description": "Complete public CFPB consumer complaint records released in the official download at execution time.",
+    "row_count": 18145013,
+    "column_count": 15,
+    "last_verified_utc": "2026-10-03T01:19:34.183998+00:00"
+  },
+  "raw_profile": {
+    "rows": 18145013,
+    "columns": 15
+  },
+  "cleaning": {
+    "clean_rows": 18145013,
+    "row_loss": 0
+  },
+  "database": {
+    "fact_rows": 18145013,
+    "dimension_rows": {
+      "dim_date": 5420,
+      "dim_company": 8143,
+      "dim_product": 21,
+      "dim_issue": 178,
+      "dim_geography": 62,
+      "dim_channel": 6
+    },
+    "size_bytes": 11641085952
+  },
+  "sql": {
+    "analyses": 32,
+    "result_tables": 36
+  },
+  "visualizations": {
+    "png_count": 12
+  },
+  "text_analysis": {
+    "text_source": "CFPB-published company public responses (consumer complaint narratives absent from this CFPB release)",
+    "consumer_narratives_available": 0,
+    "text_records_available": 9993441,
+    "documents_analyzed": 149130,
+    "corpus_cap": 150000,
+    "method": "Systematic deterministic sample of numeric complaint IDs divisible by 67 (capped at 150,000); TF-IDF unigrams/bigrams on sampled text and 8-component NMF on its first 30,000 documents; English stopword list plus project stopwords.",
+    "caution": "Themes are algorithmic groupings for investigation, not objective consumer sentiment or causal findings."
+  },
+  "powerbi": {
+    "fact_rows": 18145013,
+    "fact_size_bytes": 199988696,
+    "dimensions": {
+      "dim_date": 5420,
+      "dim_company": 8143,
+      "dim_product": 21,
+      "dim_issue": 178,
+      "dim_geography": 62,
+      "dim_channel": 6
+    }
+  },
+  "validation": {
+    "status": "PASS",
+    "checks": [
+      {
+        "check": "clean-to-database row reconciliation",
+        "status": "PASS",
+        "detail": "clean=18,145,013; database=18,145,013"
+      },
+      {
+        "check": "complaint ID uniqueness",
+        "status": "PASS",
+        "detail": "rows=18,145,013; unique IDs=18,145,013"
+      },
+      {
+        "check": "date parsing",
+        "status": "PASS",
+        "detail": "malformed non-null database dates=0"
+      },
+      {
+        "check": "future received dates",
+        "status": "PASS",
+        "detail": "future dates=0"
+      },
+      {
+        "check": "required complaint/date fields",
+        "status": "PASS",
+        "detail": "missing required fields=0"
+      },
+      {
+        "check": "company dimension integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "dim_date referential integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "dim_product referential integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "dim_issue referential integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "dim_geography referential integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "dim_channel referential integrity",
+        "status": "PASS",
+        "detail": "orphan foreign keys=0"
+      },
+      {
+        "check": "timely response flags",
+        "status": "PASS",
+        "detail": "invalid flags=0"
+      },
+      {
+        "check": "timely response source categories",
+        "status": "PASS",
+        "detail": "unexpected values=0"
+      },
+      {
+        "check": "Python-to-SQL yearly aggregate reconciliation",
+        "status": "PASS",
+        "detail": "years checked=16"
+      },
+      {
+        "check": "Power BI fact export reconciliation",
+        "status": "PASS",
+        "detail": "database=18,145,013; export=18,145,013"
+      },
+      {
+        "check": "official raw inputs present",
+        "status": "PASS",
+        "detail": "archive=True; extracted csv=True"
+      }
+    ],
+    "raw_csv_bytes": 5499098923,
+    "clean_rows": 18145013,
+    "database_rows": 18145013,
+    "powerbi_fact_rows": 18145013
+  },
+  "note": "All stages have completed against this source snapshot; use python -m src.run_pipeline for a fresh end-to-end refresh."
+}

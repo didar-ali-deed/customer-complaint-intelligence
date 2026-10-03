@@ -31,6 +31,14 @@ CALCULATE([Total Complaints], fact_complaints[has_narrative] = 1)
 
 Narrative Rate % = DIVIDE([Complaints With Narratives], [Total Complaints])
 
+Company Public Responses =
+CALCULATE([Total Complaints],
+    FILTER(fact_complaints,
+        NOT ISBLANK(fact_complaints[company_public_response]) &&
+        LEN(TRIM(fact_complaints[company_public_response])) > 0))
+
+Company Public Response Rate % = DIVIDE([Company Public Responses], [Total Complaints])
+
 Unique Companies = DISTINCTCOUNT(fact_complaints[company_id])
 Unique Products = DISTINCTCOUNT(fact_complaints[product_id])
 Unique Issues = DISTINCTCOUNT(fact_complaints[issue_id])

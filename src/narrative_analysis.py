@@ -30,7 +30,7 @@ def analyze_narratives(db_path:Path=DB_PATH)->dict:
             text_column="company_public_response"; source_label="CFPB-published company public responses (consumer complaint narratives absent from this CFPB release)"
             predicate="company_public_response IS NOT NULL AND company_public_response<>''"
         total=con.execute(f"SELECT COUNT(*) FROM fact_complaints WHERE {predicate}").fetchone()[0]
-        docs=pd.read_sql_query(f"SELECT f.{text_column} narrative,p.product,i.issue,c.company FROM fact_complaints f LEFT JOIN dim_product p USING(product_id) LEFT JOIN dim_issue i USING(issue_id) LEFT JOIN dim_company c USING(company_id) WHERE f.{predicate} ORDER BY f.complaint_id LIMIT {NLP_MAX_DOCUMENTS}",con)
+        docs=pd.read_sql_query(f"SELECT f.{text_column} narrative,p.product,i.issue,c.company FROM fact_complaints f LEFT JOIN dim_product p USING(product_id) LEFT JOIN dim_issue i USING(issue_id) LEFT JOIN dim_company c USING(company_id) WHERE f.{predicate} AND CAST(f.complaint_id AS INTEGER)%67=0 ORDER BY f.complaint_id LIMIT {NLP_MAX_DOCUMENTS}",con)
         lengths=pd.read_sql_query(f"SELECT year,AVG(LENGTH({text_column})) mean_chars,AVG(LENGTH({text_column})-LENGTH(REPLACE({text_column},' ',''))+1) mean_words,MEDIAN(LENGTH({text_column})) median_chars FROM fact_complaints WHERE {predicate} GROUP BY year ORDER BY year",con)
     finally: con.close()
     lengths.to_csv(out/"narrative_length_by_year.csv",index=False)
@@ -63,7 +63,7 @@ def analyze_narratives(db_path:Path=DB_PATH)->dict:
         topics.append({"topic_id":i+1,"terms":"; ".join(terms[inds]),"documents_assigned":int((weights.argmax(axis=1)==i).sum()),"corpus_documents":topic_n})
     topic_df=pd.DataFrame(topics); topic_df.to_csv(out/"narrative_topics.csv",index=False)
     result={"text_source":source_label,"consumer_narratives_available":int(narrative_total),"text_records_available":int(total),"documents_analyzed":len(docs),"corpus_cap":NLP_MAX_DOCUMENTS,
-            "method":"Deterministic first N complaint IDs; TF-IDF unigrams/bigrams on the corpus and 8-component NMF on its first 30,000 documents; English stopword list plus project stopwords.",
+            "method":"Systematic deterministic sample of numeric complaint IDs divisible by 67 (capped at 150,000); TF-IDF unigrams/bigrams on sampled text and 8-component NMF on its first 30,000 documents; English stopword list plus project stopwords.",
             "caution":"Themes are algorithmic groupings for investigation, not objective consumer sentiment or causal findings."}
     (ROOT/"outputs/reports/narrative_analysis_metadata.json").write_text(json.dumps(result,indent=2),encoding="utf-8")
     return result

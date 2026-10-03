@@ -1,0 +1,264 @@
+{
+  "rows": 18145013,
+  "columns": 15,
+  "column_names": [
+    "Date received",
+    "Product",
+    "Sub-product",
+    "Issue",
+    "Sub-issue",
+    "Company public response",
+    "Company",
+    "State",
+    "ZIP code",
+    "Tags",
+    "Submitted via",
+    "Date sent to company",
+    "Company response to consumer",
+    "Timely response?",
+    "Complaint ID"
+  ],
+  "raw_parser_dtypes": "All CSV columns are ingested as pandas string values to preserve identifiers and ZIP leading zeroes.",
+  "estimated_cumulative_chunk_memory_bytes": 20712097816,
+  "whitespace_edge_rows_by_column": {
+    "Date received": 0,
+    "Product": 0,
+    "Sub-product": 0,
+    "Issue": 0,
+    "Sub-issue": 0,
+    "Company public response": 0,
+    "Company": 24,
+    "State": 0,
+    "ZIP code": 0,
+    "Tags": 0,
+    "Submitted via": 0,
+    "Date sent to company": 0,
+    "Company response to consumer": 0,
+    "Timely response?": 0,
+    "Complaint ID": 0
+  },
+  "case_variant_groups_by_column": {
+    "Product": 0,
+    "Sub-product": 0,
+    "Issue": 0,
+    "Sub-issue": 0,
+    "Company public response": 0,
+    "Submitted via": 0
+  },
+  "invalid_state_rows": 1522,
+  "unexpected_yes_no_values_by_field": {
+    "Timely response?": 0
+  },
+  "suspicious_category_samples": {
+    "State": [
+      "NV",
+      "NY",
+      "MI",
+      "CA",
+      "PA",
+      "TX",
+      "CT",
+      "MO",
+      "NJ",
+      "GA",
+      "AZ",
+      "FL"
+    ],
+    "Timely response?": [
+      "Yes",
+      "No"
+    ]
+  },
+  "duplicate_complaint_ids_within_chunks": 0,
+  "exact_duplicates_detected_across_stream": 0,
+  "date_ranges": {
+    "Date sent to company": {
+      "min": "2011-12-01T00:00:00",
+      "max": "2026-10-02T00:00:00"
+    },
+    "Date received": {
+      "min": "2011-12-01T00:00:00",
+      "max": "2026-10-02T00:00:00"
+    }
+  },
+  "malformed_dates": {
+    "Date sent to company": 0,
+    "Date received": 0
+  },
+  "text_statistics": {
+    "Company public response_nonempty": 9993441,
+    "Company public response_characters": 939768133,
+    "Company response to consumer_nonempty": 18144992,
+    "Company response to consumer_characters": 458823607,
+    "Timely response?_nonempty": 18145013,
+    "Timely response?_characters": 54324816
+  },
+  "profile_csv": "C:\\Users\\Didar\\Desktop\\data_anlystic_project\\outputs\\reports\\raw_data_profile.csv",
+  "top_missing": [
+    {
+      "column": "Tags",
+      "dtype": "string",
+      "missing_count": 17330239,
+      "missing_pct": 95.5097,
+      "unique_nonempty": 3,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Older American | Older American, Servicemember | Servicemember"
+    },
+    {
+      "column": "Company public response",
+      "dtype": "string",
+      "missing_count": 8151572,
+      "missing_pct": 44.9246,
+      "unique_nonempty": 11,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Company has responded to the consumer and the CFPB and chooses not to provide a public response | Company believes it acted appropriately as authorized by contract or law | Company believes the complaint is the result of a misunderstanding | Company can't verify or dispute the facts in the complaint | Company believes complaint caused principally by actions of third party outside the control or direction of the company | Company believes the complaint provided an opportunity to answer consumer's questions | Company believes complaint is the result of an isolated error | Company believes complaint represents an opportunity for improvement to better serve consumers | Company disputes the facts presented in the complaint | Company believes complaint relates to a discontinued policy or procedure | Company chooses not to provide a public response"
+    },
+    {
+      "column": "Sub-issue",
+      "dtype": "string",
+      "missing_count": 938987,
+      "missing_pct": 5.1749,
+      "unique_nonempty": 272,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Other problem | Their investigation did not fix an error on your report | Didn't receive enough information to verify debt | Credit inquiries on your report that you don't recognize | Account information incorrect | Deposits and withdrawals | Information belongs to someone else | Problem getting your free annual credit report | Notice to repossess | Reporting company used your report improperly | Don't agree with the fees charged | Trouble with how payments are being handled"
+    },
+    {
+      "column": "Sub-product",
+      "dtype": "string",
+      "missing_count": 235275,
+      "missing_pct": 1.2966,
+      "unique_nonempty": 86,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "General-purpose credit card or charge card | Credit reporting | Telecommunications debt | Checking account | Loan | Federal student loan servicing | Rental debt | Conventional home mortgage | Credit card debt | I do not know | Payday loan | Lease"
+    },
+    {
+      "column": "State",
+      "dtype": "string",
+      "missing_count": 63036,
+      "missing_pct": 0.3474,
+      "unique_nonempty": 63,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "NV | NY | MI | CA | PA | TX | CT | MO | NJ | GA | AZ | FL"
+    },
+    {
+      "column": "ZIP code",
+      "dtype": "string",
+      "missing_count": 2859,
+      "missing_pct": 0.0158,
+      "unique_nonempty": 36953,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "89103 | 11101 | 48214 | 92832 | 19142 | 78237 | 48135 | 10702 | 17601 | 95330 | 06511 | 63367"
+    },
+    {
+      "column": "Company response to consumer",
+      "dtype": "string",
+      "missing_count": 21,
+      "missing_pct": 0.0001,
+      "unique_nonempty": 8,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Closed with explanation | Closed with non-monetary relief | Untimely response | In progress | Closed with monetary relief | Closed | Closed without relief | Closed with relief"
+    },
+    {
+      "column": "Company",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 8143,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 24,
+      "case_variant_groups": 0,
+      "sample_values": "CAPITAL ONE FINANCIAL CORPORATION | Experian Information Solutions Inc. | TRANSUNION INTERMEDIATE HOLDINGS, INC. | Amsher Collection Services, Inc. | EQUIFAX, INC. | Leafy Financial, LLC | MoneyLion Inc. | SANTANDER HOLDINGS USA, INC. | MOHELA | ProCollect, Inc. | CREDIT ACCEPTANCE CORPORATION | BANK OF AMERICA, NATIONAL ASSOCIATION"
+    },
+    {
+      "column": "Issue",
+      "dtype": "string",
+      "missing_count": 6,
+      "missing_pct": 0.0,
+      "unique_nonempty": 178,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Other features, terms, or problems | Problem with a credit reporting company's investigation into an existing problem | Written notification about debt | Improper use of your report | Incorrect information on your report | Managing an account | Unable to get your credit report or credit score | Repossession | Dealing with your lender or servicer | Struggling to repay your loan | Took or threatened to take negative or legal action | Closing your account"
+    },
+    {
+      "column": "Date received",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 5418,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "2023-06-26 | 2023-07-01 | 2024-01-14 | 2024-01-11 | 2024-06-27 | 2024-07-17 | 2024-08-28 | 2024-09-05 | 2024-10-17 | 2024-10-10 | 2024-11-14 | 2024-12-12"
+    },
+    {
+      "column": "Product",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 21,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Credit card or prepaid card | Credit reporting, credit repair services, or other personal consumer reports | Debt collection | Credit reporting or other personal consumer reports | Checking or savings account | Vehicle loan or lease | Student loan | Credit card | Mortgage | Payday loan, title loan, personal loan, or advance loan | Debt or credit management | Prepaid card"
+    },
+    {
+      "column": "Submitted via",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 6,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Phone | Web | Postal mail | Referral | Fax | Email"
+    },
+    {
+      "column": "Date sent to company",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 5367,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "2023-06-26 | 2023-07-01 | 2024-01-14 | 2024-01-11 | 2024-06-27 | 2024-07-17 | 2024-08-28 | 2024-09-05 | 2024-10-17 | 2024-10-10 | 2024-11-14 | 2024-12-12"
+    },
+    {
+      "column": "Timely response?",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 2,
+      "cardinality_method": "exact",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "Yes | No"
+    },
+    {
+      "column": "Complaint ID",
+      "dtype": "string",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "unique_nonempty": 18257611,
+      "cardinality_method": "HyperLogLog estimate (p=12)",
+      "whitespace_edge_rows": 0,
+      "case_variant_groups": 0,
+      "sample_values": "7170828 | 7185053 | 7187308 | 8155636 | 8145536 | 8148188 | 8145547 | 9362004 | 9361354 | 9361049 | 9525225 | 9951620"
+    }
+  ]
+}

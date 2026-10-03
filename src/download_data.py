@@ -20,7 +20,10 @@ def download_data(force: bool = False) -> Path:
     """Fetch official ZIP when needed, extract the CSV unchanged, and write metadata."""
     RAW_ARCHIVE.parent.mkdir(parents=True, exist_ok=True)
     valid_archive = RAW_ARCHIVE.exists() and zipfile.is_zipfile(RAW_ARCHIVE)
-    if force or not valid_archive:
+    downloaded_this_run=force or not valid_archive
+    prior_metadata=json.loads(METADATA.read_text(encoding="utf-8")) if METADATA.exists() else {}
+    now=datetime.now(timezone.utc)
+    if downloaded_this_run:
         temporary = RAW_ARCHIVE.with_suffix(".zip.part")
         try:
             with requests.get(DATA_URL, stream=True, timeout=(30, 180)) as response:
@@ -48,7 +51,8 @@ def download_data(force: bool = False) -> Path:
     metadata = {
         "source": "Consumer Financial Protection Bureau Consumer Complaint Database",
         "source_url": SOURCE_PAGE, "download_url": DATA_URL,
-        "download_date_utc": datetime.now(timezone.utc).isoformat(),
+        "download_date_utc": now.date().isoformat() if downloaded_this_run else prior_metadata.get("download_date_utc",now.date().isoformat()),
+        "last_verified_utc": now.isoformat(),
         "archive_filename": RAW_ARCHIVE.name, "archive_size_bytes": RAW_ARCHIVE.stat().st_size,
         "archive_sha256": sha256_file(RAW_ARCHIVE), "filename": RAW_CSV.name,
         "filesize_bytes": RAW_CSV.stat().st_size, "sha256": sha256_file(RAW_CSV),

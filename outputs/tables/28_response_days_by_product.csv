@@ -1,0 +1,22 @@
+product,observations,mean_days,median_days
+Other financial service,1056,12.204545454545455,4.0
+Payday loan,5502,6.570883315158125,2.0
+Bank account or service,85798,3.0177626518100653,1.0
+Consumer Loan,31421,4.919639731389835,1.0
+Checking or savings account,400057,1.3553543620034145,0.0
+Credit card,346747,1.7353459438726218,0.0
+Credit card or prepaid card,206356,1.732583496481808,0.0
+Credit reporting,138694,4.2011911113674705,0.0
+Credit reporting or other personal consumer reports,12555681,0.15618698818487026,0.0
+"Credit reporting, credit repair services, or other personal consumer reports",2163770,0.3463736903645027,0.0
+Debt collection,1202905,2.2233734168533674,0.0
+Debt or credit management,10433,3.9751749257164763,0.0
+"Money transfer, virtual currency, or money service",193043,1.3042430960977607,0.0
+Money transfers,5274,2.4791429654910884,0.0
+Mortgage,460353,3.8053710956592006,0.0
+"Payday loan, title loan, or personal loan",30614,3.553570261971647,0.0
+"Payday loan, title loan, personal loan, or advance loan",38747,3.3042300049036055,0.0
+Prepaid card,23447,3.7264042308184417,0.0
+Student loan,133984,2.298222175782183,0.0
+Vehicle loan or lease,104063,1.9620422244217446,0.0
+Virtual currency,18,4.444444444444445,0.0

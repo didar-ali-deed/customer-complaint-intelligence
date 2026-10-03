@@ -12,7 +12,7 @@
 10. Build Page 2 with product and issue rankings, product-by-issue matrix, complete-period growth comparisons, and drill-through to complaint detail.
 11. Build Page 3 with company counts, timely response rate and denominator, company trends, company-by-product matrix, and response categories.
 12. Build Page 4 with state map/ranking, channel breakdown and trend, and state-by-product matrix. Retain unknown-state records outside the map.
-13. Build Page 5 with narrative coverage/length, top terms, segment terms, and NMF topic terms. Add a note that the corpus is capped and patterns are exploratory.
+13. Build Page 5 with consumer narrative coverage (zero for this source release), company public-response categories, top terms, segment terms, and NMF topic terms. Add a note that NLP uses a capped sample of company public-response text and describes CFPB-published company statements, not consumer sentiment.
 14. Configure slicer synchronization, cross-highlighting, drill-through, and report tooltips. Keep optional bookmarks limited to useful count/rate views.
 15. Apply a consistent 16:9 theme, readable labels, restrained colors, short titles, and conditional formatting as described in `POWER_BI_VISUAL_PLAN.md`.
 16. Reconcile the all-time complaint card to the `fact_complaints` row count in `outputs/reports/validation_report.txt`. Check year totals and timely-response denominators against SQL exports under `outputs/tables/`.

@@ -1,0 +1,17 @@
+{
+  "source": "Consumer Financial Protection Bureau Consumer Complaint Database",
+  "source_url": "https://www.consumerfinance.gov/data-research/consumer-complaints/",
+  "download_url": "https://files.consumerfinance.gov/ccdb/complaints.csv.zip",
+  "download_date_utc": "2026-10-03",
+  "archive_filename": "complaints.csv.zip",
+  "archive_size_bytes": 350138444,
+  "archive_sha256": "3327d50c93637c637c798da38380cfef4856c1eb1b3c949a3eeb3eb7b77236a4",
+  "filename": "complaints.csv",
+  "filesize_bytes": 5499098923,
+  "sha256": "14460b4706772bd017197e5a42efd2e6939bbb366ae55de0d83d41b87d57a111",
+  "source_member": "complaints.csv",
+  "description": "Complete public CFPB consumer complaint records released in the official download at execution time.",
+  "row_count": 18145013,
+  "column_count": 15,
+  "last_verified_utc": "2026-10-03T01:19:34.183998+00:00"
+}

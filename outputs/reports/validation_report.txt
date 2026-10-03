@@ -1,0 +1,18 @@
+Validation status: PASS
+
+PASS: clean-to-database row reconciliation — clean=18,145,013; database=18,145,013
+PASS: complaint ID uniqueness — rows=18,145,013; unique IDs=18,145,013
+PASS: date parsing — malformed non-null database dates=0
+PASS: future received dates — future dates=0
+PASS: required complaint/date fields — missing required fields=0
+PASS: company dimension integrity — orphan foreign keys=0
+PASS: dim_date referential integrity — orphan foreign keys=0
+PASS: dim_product referential integrity — orphan foreign keys=0
+PASS: dim_issue referential integrity — orphan foreign keys=0
+PASS: dim_geography referential integrity — orphan foreign keys=0
+PASS: dim_channel referential integrity — orphan foreign keys=0
+PASS: timely response flags — invalid flags=0
+PASS: timely response source categories — unexpected values=0
+PASS: Python-to-SQL yearly aggregate reconciliation — years checked=16
+PASS: Power BI fact export reconciliation — database=18,145,013; export=18,145,013
+PASS: official raw inputs present — archive=True; extracted csv=True

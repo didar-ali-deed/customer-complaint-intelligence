@@ -1,0 +1,9 @@
+{
+  "text_source": "CFPB-published company public responses (consumer complaint narratives absent from this CFPB release)",
+  "consumer_narratives_available": 0,
+  "text_records_available": 9993441,
+  "documents_analyzed": 149130,
+  "corpus_cap": 150000,
+  "method": "Systematic deterministic sample of numeric complaint IDs divisible by 67 (capped at 150,000); TF-IDF unigrams/bigrams on sampled text and 8-component NMF on its first 30,000 documents; English stopword list plus project stopwords.",
+  "caution": "Themes are algorithmic groupings for investigation, not objective consumer sentiment or causal findings."
+}

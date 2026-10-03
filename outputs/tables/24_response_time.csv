@@ -1,0 +1,10 @@
+company_response_to_consumer,complaints,avg_days,median_days,max_days
+Closed with explanation,11135692,0.7606444215590733,0.0,1962
+Closed with non-monetary relief,6082607,0.2387650558387218,0.0,1753
+In progress,624792,0.11710777346700982,0.0,269
+Closed with monetary relief,219949,1.9096335968792766,0.0,993
+Untimely response,34285,5.808254338632055,0.0,1133
+Closed without relief,17850,4.450028011204481,1.0,273
+Closed,17471,6.384236735161124,1.0,714
+Closed with relief,5296,3.8334592145015107,1.0,141
+,21,0.0,0.0,0
