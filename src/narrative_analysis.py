@@ -39,20 +39,22 @@ def analyze_narratives(db_path:Path=DB_PATH)->dict:
     docs["clean_text"]=docs.narrative.map(normalize)
     docs=docs.loc[docs.clean_text.str.len()>0].reset_index(drop=True)
     stop=set(ENGLISH_STOP_WORDS)|{"said","told","company","account","would","could","also","one","get","got","back","please"," CFPB".strip().lower()}
-    vector=TfidfVectorizer(stop_words=stop,ngram_range=(1,2),min_df=5,max_features=5000,sublinear_tf=True,token_pattern=r"(?u)\b[a-z][a-z']{2,}\b")
+    vector=TfidfVectorizer(stop_words=sorted(stop),ngram_range=(1,2),min_df=5,max_features=5000,sublinear_tf=True,token_pattern=r"(?u)\b[a-z][a-z']{2,}\b")
     matrix=vector.fit_transform(docs.clean_text); terms=vector.get_feature_names_out()
     import numpy as np
     sums=np.asarray(matrix.sum(axis=0)).ravel(); top=np.argsort(sums)[::-1][:100]
     pd.DataFrame({"term":terms[top],"tfidf_weight":sums[top]}).to_csv(out/"narrative_top_terms.csv",index=False)
     # Top terms for the most common products and issue groups with enough narratives.
     subset=[]
-    for field in ["product","issue"]:
-        for label,count in docs[field].value_counts().head(12).items():
+    for field in ["product","issue","company"]:
+        groups=docs[field].value_counts()
+        groups=groups[groups>=100].head(12)
+        for label,count in groups.items():
             subset.append({"group_type":field,"group":label,"narratives":int(count),"top_terms":"; ".join(terms[np.argsort(np.asarray(matrix[docs[field].eq(label)].sum(axis=0)).ravel())[::-1][:10]])})
     pd.DataFrame(subset).to_csv(out/"narrative_terms_by_segment.csv",index=False)
     topic_n=min(len(docs),30_000)
     topic_matrix=matrix[:topic_n]
-    model=NMF(n_components=8,init="nndsvda",random_state=42,max_iter=200)
+    model=NMF(n_components=min(8,max(1,matrix.shape[0]-1),max(1,matrix.shape[1]-1)),init="nndsvda",random_state=42,max_iter=200)
     weights=model.fit_transform(topic_matrix)
     topics=[]
     for i,component in enumerate(model.components_):
